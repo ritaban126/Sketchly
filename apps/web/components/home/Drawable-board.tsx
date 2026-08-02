@@ -10,9 +10,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-/* ---------------------------------------------------------
-   Types
---------------------------------------------------------- */
+
+  // Types
 
 interface Point {
   x: number;
@@ -38,9 +37,8 @@ const MARKER_COLORS: MarkerColor[] = [
   { name: "yellow", hex: "#E6A800" },
 ];
 
-/* ---------------------------------------------------------
-   Helpers
---------------------------------------------------------- */
+
+  //Helpers
 
 function shapePoints(kind: ShapeKind, cx: number, cy: number, s: number): Point[] {
   switch (kind) {
@@ -80,6 +78,7 @@ function shapePoints(kind: ShapeKind, cx: number, cy: number, s: number): Point[
   }
 }
 
+
 function drawStroke(ctx: CanvasRenderingContext2D, stroke: Stroke): void {
   if (stroke.points.length < 2) return;
   ctx.strokeStyle = stroke.color;
@@ -95,9 +94,11 @@ function drawStroke(ctx: CanvasRenderingContext2D, stroke: Stroke): void {
   ctx.stroke();
 }
 
+
 function randomInRange(min: number, max: number): number {
   return min + Math.random() * (max - min);
 }
+
 
 function createStampStroke(kind: ShapeKind, rect: DOMRect, color: string): Stroke {
   const cx = randomInRange(60, rect.width - 60);
@@ -105,9 +106,8 @@ function createStampStroke(kind: ShapeKind, rect: DOMRect, color: string): Strok
   return { color, points: shapePoints(kind, cx, cy, 26) };
 }
 
-/* ---------------------------------------------------------
-   Component
---------------------------------------------------------- */
+
+  //Component
 
 export default function DrawableBoard() {
   const canvasRef = useRef<HTMLCanvasElement>(null);

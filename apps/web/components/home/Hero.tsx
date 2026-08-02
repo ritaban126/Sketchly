@@ -76,13 +76,13 @@ export default function Hero() {
 
           <div className="hidden items-center gap-8 font-mono text-[13px] tracking-tight text-[#5B5D6E] md:flex">
             <a href="#" className="transition-colors hover:text-[#15172B]">
-              our story
+              Features
             </a>
             <Link href="/dashboard" className="transition-colors hover:text-[#15172B]">
               Dashboard
             </Link>
             <a href="#" className="transition-colors hover:text-[#15172B]">
-              contact us
+              Testimonials
             </a>
           </div>
 
