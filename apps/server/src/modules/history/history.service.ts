@@ -1,4 +1,4 @@
-import {db, boardHistory, drawingObjects} from "../../../../../packages/db/src";
+import {db, boardHistory, drawingObjects} from "@repo/db";
 import {and, eq, isNull, desc} from "drizzle-orm";
 import type { InferModel } from "drizzle-orm";
 

@@ -16,6 +16,7 @@ export async function createNotification(userId: string, boardId: string | null,
 //     orderBy: desc(notifications.createdAt),
 //   });
 // }
+
 export async function getNotifications(userId: string) {
   return await db
     .select()

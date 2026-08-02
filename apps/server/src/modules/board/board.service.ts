@@ -89,6 +89,7 @@ export async function generateShareLink(boardId: string) {
 //   return board;
 // }
 
+
 export async function joinBoardByToken(shareToken: string, userId: string) {
   const boardRows = await db
     .select()
