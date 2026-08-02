@@ -29,7 +29,7 @@ export default function BoardPage() {
 
   const handleToggleHistory = () => {
     setShowHistory((v) => !v);
-    setShowChat(false); // dono ek saath khule to overlap hoga, isliye ek dusre ko band karo
+    setShowChat(false);
   };
 
   const handleToggleChat = () => {
