@@ -61,7 +61,11 @@ export const usePresenceStore = create<PresenceState>((set) => ({
         return { cursors: rest };
     }),
 
-  addMessage: (msg) => set((state) => ({ messages: [...state.messages, msg] })),
+addMessage: (msg) =>
+  set((state) => {
+    if (state.messages.some((m) => m.id === msg.id)) return state; // already exists, skip
+    return { messages: [...state.messages, msg] };
+  }),
 
   clearMessages: () => set({ messages: [] }),
 }));

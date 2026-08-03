@@ -4,9 +4,16 @@ import { usePresenceStore } from "@/stores/presenceStore";
 import { useSocket } from "@/hooks/useSocket";
 import { useAuth } from "@/hooks/useAuth";
 
-export function ChatPanel({ boardId, collaborating }: { boardId: string; collaborating: boolean }) {
+export function ChatPanel({
+  socket,
+}: {
+  boardId: string;
+  collaborating: boolean;
+  socket: ReturnType<typeof useSocket>;
+}) {
   const messages = usePresenceStore((s) => s.messages);
-  const { sendChatMessage } = useSocket(boardId, collaborating);
+  // const { sendChatMessage } = useSocket(boardId, collaborating);
+  const { sendChatMessage } = socket;
   const { user } = useAuth();
   const [text, setText] = useState("");
 

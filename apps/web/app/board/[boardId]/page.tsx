@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useBoard } from "@/hooks/useBoard";
+import { useSocket } from "@/hooks/useSocket";
 import { BoardHeader } from "@/components/board/BoardHeader";
 import { Toolbar } from "@/components/canvas/Toolbar";
 import { PresenceBar } from "@/components/presence/PresenceBar";
@@ -17,6 +18,9 @@ export default function BoardPage() {
   const [collaborating, setCollaborating] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+
+  // Sirf EK baar socket connection — Canvas aur ChatPanel dono ko yahi pass hoga
+  const socket = useSocket(boardId, collaborating);
 
   useEffect(() => {
     return () => {
@@ -59,12 +63,12 @@ export default function BoardPage() {
 
       <div className="relative flex-1 flex overflow-hidden min-h-0">
         <div className="relative flex-1 min-h-0 min-w-0">
-          <Canvas boardId={boardId} collaborating={collaborating} />
+          <Canvas boardId={boardId} collaborating={collaborating} socket={socket} />
           <LiveCursors />
         </div>
 
         {showHistory && <HistoryPanel boardId={boardId} />}
-        {showChat && <ChatPanel boardId={boardId} collaborating={collaborating} />}
+        {showChat && <ChatPanel boardId={boardId} collaborating={collaborating} socket={socket} />}
       </div>
     </div>
   );

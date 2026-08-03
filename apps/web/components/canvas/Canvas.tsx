@@ -6,7 +6,15 @@ import { useSocket } from "@/hooks/useSocket";
 import { saveDrawingObject } from "@/lib/api/boards";
 import type { DrawingObjectType } from "@repo/websocket";
 
-export function Canvas({ boardId, collaborating }: { boardId: string; collaborating: boolean }) {
+export function Canvas({
+  boardId,
+  collaborating,
+  socket,
+}: {
+  boardId: string;
+  collaborating: boolean;
+  socket: ReturnType<typeof useSocket>;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const selectedTool = useCanvasStore((s) => s.selectedTool);
@@ -16,7 +24,8 @@ export function Canvas({ boardId, collaborating }: { boardId: string; collaborat
   const addObject = useCanvasStore((s) => s.addObject);
   const pushHistory = useCanvasStore((s) => s.pushHistory);
 
-  const { sendDrawingCreate } = useSocket(boardId, collaborating);
+  // const { sendDrawingCreate } = useSocket(boardId, collaborating);
+  const { sendDrawingCreate } = socket;
 
   // Latest values refs mein hai — initDraw ka effect inhe read karega bina re-run hue
   const toolRef = useRef(selectedTool);
