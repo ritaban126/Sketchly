@@ -100,6 +100,18 @@ export function useSocket(boardId: string, enabled: boolean) {
       addMessage(msg);
     });
 
+    socket.on(
+      SOCKET_EVENTS.EXPORT_READY,
+      ({ url, format }: { url: string; format: string }) => {
+        toast(`Your ${format.toUpperCase()} export is ready!`, {
+          action: {
+            label: "Open",
+            onClick: () => window.open(url, "_blank"),
+          },
+        });
+      }
+    );
+
     return () => {
       socket.disconnect();
     };

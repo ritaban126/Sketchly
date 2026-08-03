@@ -45,8 +45,29 @@ export async function handleUpload(
 }
 
 export async function requestExport(boardId: string, format: "png" | "pdf", userId: string) {
-  const job = await exportQueue.add("export-board", { boardId, format, userId });
-  return job.id;
+  const [record] = await db
+    .insert(uploadedFiles)
+    .values({
+      boardId,
+      uploadedBy: userId,
+      type: format === "png" ? "export-png" : "export-pdf",
+      url: "",
+      status: "processing",
+    })
+    .returning();
+
+  if (!record) {
+    throw new Error("Failed to create export record.");
+  }
+
+  await exportQueue.add("export-board", {
+    boardId,
+    format,
+    userId,
+    fileId: record.id,
+  });
+
+  return record.id;
 }
 
 // export async function getFileStatus(fileId: string) {

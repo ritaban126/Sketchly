@@ -24,8 +24,8 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/boards/:id/export", async (req, res) => {
-  const jobId = await fileService.requestExport(req.params.id, req.body.format, req.user.id);
-  res.status(202).json({ jobId, status: "queued" });
+  const fileId = await fileService.requestExport(req.params.id, req.body.format, req.user.id);
+  res.status(202).json({ fileId, status: "queued" });
 });
 
 export default router;

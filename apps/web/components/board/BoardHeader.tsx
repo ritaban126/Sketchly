@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ShareButton } from "./ShareButton";
-import { requestExport } from "@/lib/api/files";
+import { requestExport, getFileStatus } from "@/lib/api/files";
 import { toast } from "sonner";
 import { ArrowLeft } from "lucide-react";
 
@@ -22,11 +22,34 @@ export function BoardHeader({
   const router = useRouter();
   const [exporting, setExporting] = useState(false);
 
+  const pollExportStatus = (fileId: string, format: "png" | "pdf") => {
+    const interval = setInterval(async () => {
+      try {
+        const status = await getFileStatus(fileId);
+        if (status.status === "ready") {
+          clearInterval(interval);
+          toast(`Your ${format.toUpperCase()} export is ready!`, {
+            action: {
+              label: "Open",
+              onClick: () => window.open(status.url, "_blank"),
+            },
+          });
+        } else if (status.status === "failed") {
+          clearInterval(interval);
+          toast.error("Export failed");
+        }
+      } catch {
+        clearInterval(interval);
+      }
+    }, 3000);
+  };
+
   const handleExport = async (format: "png" | "pdf") => {
     setExporting(true);
     try {
-      await requestExport(boardId, format);
+      const { fileId } = await requestExport(boardId, format);
       toast(`Export requested — you'll be notified when it's ready`);
+      pollExportStatus(fileId, format);
     } catch {
       toast.error("Export failed");
     } finally {
