@@ -95,13 +95,6 @@ export async function saveExportUpload(
   return record;
 }
 
-// export async function getFileStatus(fileId: string) {
-//   const file = await db.query.uploadedFiles.findFirst({
-//     where: eq(uploadedFiles.id, fileId),
-//   });
-
-//   return file ?? null;
-// }
 
 // export async function getFileStatus(fileId: string) {
 //   return db.query.uploadedFiles.findFirst({ where: eq(uploadedFiles.id, fileId) });
