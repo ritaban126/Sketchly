@@ -70,6 +70,31 @@ export async function requestExport(boardId: string, format: "png" | "pdf", user
   return record.id;
 }
 
+export async function saveExportUpload(
+  boardId: string,
+  userId: string,
+  file: Express.Multer.File,
+  format: "png" | "pdf"
+) {
+  const result = await uploadBufferToCloudinary(file.buffer, {
+    folder: `syncboard/exports/${boardId}`,
+    resourceType: "image",
+  });
+
+  const [record] = await db
+    .insert(uploadedFiles)
+    .values({
+      boardId,
+      uploadedBy: userId,
+      type: format === "png" ? "export-png" : "export-pdf",
+      url: result.secure_url,
+      status: "ready",
+    })
+    .returning();
+
+  return record;
+}
+
 // export async function getFileStatus(fileId: string) {
 //   const file = await db.query.uploadedFiles.findFirst({
 //     where: eq(uploadedFiles.id, fileId),

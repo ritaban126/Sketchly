@@ -30,6 +30,21 @@ export async function importPdf(boardId: string, file: File) {
   return res.json();
 }
 
+export async function uploadExport(boardId: string, blob: Blob, format: "png" | "pdf") {
+  const formData = new FormData();
+  formData.append("boardId", boardId);
+  formData.append("format", format);
+  formData.append("file", blob, `export.${format === "png" ? "png" : "png"}`);
+
+  const res = await fetch(`${BASE}/api/files/export-upload`, {
+    method: "POST",
+    credentials: "include",
+    body: formData,
+  });
+  if (!res.ok) throw new Error("Failed to upload export");
+  return res.json();
+}
+
 export async function getFileStatus(fileId: string) {
   const res = await fetch(`${BASE}/api/files/${fileId}`, { credentials: "include" });
   if (!res.ok) throw new Error("Failed to fetch file status");

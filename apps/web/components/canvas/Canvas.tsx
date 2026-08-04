@@ -71,6 +71,13 @@ export function Canvas({
     return () => window.removeEventListener("resize", resize);
   }, [redraw]);
 
+
+  const setCanvasElement = useCanvasStore((s) => s.setCanvasElement);
+  useEffect(() => {
+    setCanvasElement(canvasRef.current);
+    return () => setCanvasElement(null);
+  }, [setCanvasElement]);
+
   // Shapes change hone pe re-render
   useEffect(() => {
     redraw();
