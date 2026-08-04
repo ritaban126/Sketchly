@@ -42,9 +42,9 @@ router.get("/:id", async (req, res) => {
   res.json(file);
 });
 
-router.post("/boards/:id/export", async (req, res) => {
-  const fileId = await fileService.requestExport(req.params.id, req.body.format, req.user.id);
-  res.status(202).json({ fileId, status: "queued" });
-});
+// router.post("/boards/:id/export", async (req, res) => {
+//   const fileId = await fileService.requestExport(req.params.id, req.body.format, req.user.id);
+//   res.status(202).json({ fileId, status: "queued" });
+// });
 
 export default router;

@@ -1,4 +1,4 @@
-import {db, drawingObjects} from "../../../../../packages/db/src";
+import {db, drawingObjects} from "@repo/db";
 import {and, eq, isNull} from "drizzle-orm";
 
 

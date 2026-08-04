@@ -50,14 +50,3 @@ export async function getFileStatus(fileId: string) {
   if (!res.ok) throw new Error("Failed to fetch file status");
   return res.json();
 }
-
-export async function requestExport(boardId: string, format: "png" | "pdf") {
-  const res = await fetch(`${BASE}/api/files/boards/${boardId}/export`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({ format }),
-  });
-  if (!res.ok) throw new Error("Failed to request export");
-  return res.json();
-}
