@@ -43,7 +43,6 @@
 //           },
 //           onSuccess: async () => {
 //             toast.success("Signed in successfully");
-//             // router.replace("/dashboard");
 //             router.replace(redirectTo);
 //           },
 //         },
@@ -131,7 +130,7 @@
 
 
 "use client";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -149,7 +148,7 @@ const SignInSchema = z.object({
 
 type SignInForm = z.infer<typeof SignInSchema>;
 
-const SignInPage = () => {
+function SignInPageInner() {
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -256,6 +255,12 @@ const SignInPage = () => {
       </div>
     </div>
   );
-};
+}
 
-export default SignInPage;
+export default function SignInPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SignInPageInner />
+    </Suspense>
+  );
+}
