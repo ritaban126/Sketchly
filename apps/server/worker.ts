@@ -6,7 +6,7 @@ import {startNotificationWorker} from "./src/jobs/notification.job";
 
 const healthApp = express();
 healthApp.get("/health", (_req, res) => res.json({ status: "worker alive" }));
-healthApp.listen(process.env.PORT || 3001);
+healthApp.listen(process.env.PORT || 3002);
 startImageProcessingWorker();
 startNotificationWorker();
 
