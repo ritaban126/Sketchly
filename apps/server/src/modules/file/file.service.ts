@@ -2,7 +2,7 @@ import {db, uploadedFiles} from "@repo/db";
 import {eq} from "drizzle-orm";
 import {uploadBufferToCloudinary} from "../../config/cloudinary.js";
 import {imageProcessingQueue} from "../../jobs/imageProcessing.job";
-// import {exportQueue} from "../../jobs/export.job";
+
 
 
 export async function handleUpload(
@@ -44,32 +44,6 @@ export async function handleUpload(
   return record;
 }
 
-// export async function requestExport(boardId: string, format: "png" | "pdf", userId: string) {
-//   const [record] = await db
-//     .insert(uploadedFiles)
-//     .values({
-//       boardId,
-//       uploadedBy: userId,
-//       type: format === "png" ? "export-png" : "export-pdf",
-//       url: "",
-//       status: "processing",
-//     })
-//     .returning();
-
-//   if (!record) {
-//     throw new Error("Failed to create export record.");
-//   }
-
-//   await exportQueue.add("export-board", {
-//     boardId,
-//     format,
-//     userId,
-//     fileId: record.id,
-//   });
-
-//   return record.id;
-// }
-
 export async function saveExportUpload(
   boardId: string,
   userId: string,
@@ -94,7 +68,6 @@ export async function saveExportUpload(
 
   return record;
 }
-
 
 // export async function getFileStatus(fileId: string) {
 //   return db.query.uploadedFiles.findFirst({ where: eq(uploadedFiles.id, fileId) });
