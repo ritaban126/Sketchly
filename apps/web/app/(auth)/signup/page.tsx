@@ -4,7 +4,7 @@
 // import { z } from "zod";
 // import { zodResolver } from "@hookform/resolvers/zod";
 // import FormInput from "@/components/FormInput";
-// import { useRouter } from "next/navigation";
+// import { useRouter, useSearchParams } from "next/navigation";
 // import { toast } from "sonner";
 // import Link from "next/link";
 // import { client } from "@/lib/auth-client";
@@ -28,6 +28,8 @@
 //     resolver: zodResolver(RegisterSchema),
 //   });
 //   const router = useRouter();
+//   const searchParams = useSearchParams();
+//   const redirectTo = searchParams.get("redirect") || "/dashboard";
 
 //   const onSubmit = async (data: RegisterForm) => {
 //     setIsLoading(true);
@@ -42,7 +44,7 @@
 //           },
 //           onSuccess: async () => {
 //             toast.success("Account created successfully");
-//             router.replace("/dashboard");
+//             router.replace(redirectTo);
 //           },
 //         },
 //       });
@@ -123,7 +125,7 @@
 
 //         <div className="mt-5 flex items-center justify-center gap-1 font-mono text-[13px] text-[#5B5D6E]">
 //           <p>already have an account?</p>
-//           <Link href="/login" className="font-medium text-[#15172B] underline underline-offset-2">
+//           <Link href={`/login?redirect=${encodeURIComponent(redirectTo)}`} className="font-medium text-[#15172B] underline underline-offset-2">
 //             Sign in
 //           </Link>
 //         </div>
@@ -135,8 +137,10 @@
 // export default RegisterPage;
 
 
+
 "use client";
-import { useState } from "react";
+
+import { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -155,8 +159,9 @@ const RegisterSchema = z.object({
 
 type RegisterForm = z.infer<typeof RegisterSchema>;
 
-const RegisterPage = () => {
+function RegisterPageInner() {
   const [isLoading, setIsLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -164,12 +169,14 @@ const RegisterPage = () => {
   } = useForm<RegisterForm>({
     resolver: zodResolver(RegisterSchema),
   });
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirect") || "/dashboard";
 
   const onSubmit = async (data: RegisterForm) => {
     setIsLoading(true);
+
     try {
       await client.signUp.email({
         ...data,
@@ -217,9 +224,11 @@ const RegisterPage = () => {
             </span>
             <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[#FF6B57]" />
           </Link>
+
           <h1 className="mt-4 text-2xl font-semibold tracking-tight">
             Create your account
           </h1>
+
           <p className="mt-1 font-mono text-[12px] text-[#9C9A8E]">
             free forever for teams under 5 · no credit card
           </p>
@@ -233,6 +242,7 @@ const RegisterPage = () => {
             register={register}
             errors={errors}
           />
+
           <FormInput
             label="Email"
             name="email"
@@ -240,6 +250,7 @@ const RegisterPage = () => {
             register={register}
             errors={errors}
           />
+
           <FormInput
             label="Password"
             name="password"
@@ -254,6 +265,7 @@ const RegisterPage = () => {
             className="group mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#15172B] px-6 py-3 text-sm font-medium text-[#FAF9F4] transition-transform hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100"
           >
             {isLoading ? "Registering..." : "Start sketching free"}
+
             {!isLoading && (
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             )}
@@ -262,13 +274,23 @@ const RegisterPage = () => {
 
         <div className="mt-5 flex items-center justify-center gap-1 font-mono text-[13px] text-[#5B5D6E]">
           <p>already have an account?</p>
-          <Link href={`/login?redirect=${encodeURIComponent(redirectTo)}`} className="font-medium text-[#15172B] underline underline-offset-2">
+
+          <Link
+            href={`/login?redirect=${encodeURIComponent(redirectTo)}`}
+            className="font-medium text-[#15172B] underline underline-offset-2"
+          >
             Sign in
           </Link>
         </div>
       </div>
     </div>
   );
-};
+}
 
-export default RegisterPage;
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <RegisterPageInner />
+    </Suspense>
+  );
+}
