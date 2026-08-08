@@ -1,4 +1,4 @@
-const BASE = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3001";
+const BASE = process.env.NEXT_PUBLIC_SERVER_URL || "";
 
 
 
