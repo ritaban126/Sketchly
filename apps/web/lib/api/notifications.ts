@@ -1,4 +1,4 @@
-const BASE = process.env.NEXT_PUBLIC_SERVER_URL;
+const BASE = process.env.NEXT_PUBLIC_SERVER_URL || "";
 
 export async function listNotifications() {
   const res = await fetch(`${BASE}/api/notifications`, { credentials: "include" });
