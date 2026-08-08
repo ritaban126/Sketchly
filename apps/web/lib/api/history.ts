@@ -1,5 +1,6 @@
 const BASE = process.env.NEXT_PUBLIC_SERVER_URL || "";
 
+
 export async function listHistory(boardId: string) {
   const res = await fetch(`${BASE}/api/boards/${boardId}/history`, { credentials: "include" });
   if (!res.ok) throw new Error("Failed to fetch history");
@@ -23,3 +24,4 @@ export async function restoreSnapshot(boardId: string, historyId: string) {
   if (!res.ok) throw new Error("Failed to restore snapshot");
   return res.json();
 }
+
