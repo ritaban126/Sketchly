@@ -1,6 +1,4 @@
-const BASE = process.env.NEXT_PUBLIC_SERVER_URL || "";
-
-
+import { BASE } from "./base";
 
 export async function createBoard(title: string) {
   const res = await fetch(`${BASE}/api/boards`, {

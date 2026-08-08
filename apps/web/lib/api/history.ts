@@ -1,5 +1,4 @@
-const BASE = process.env.NEXT_PUBLIC_SERVER_URL || "";
-
+import { BASE } from "./base";
 
 export async function listHistory(boardId: string) {
   const res = await fetch(`${BASE}/api/boards/${boardId}/history`, { credentials: "include" });

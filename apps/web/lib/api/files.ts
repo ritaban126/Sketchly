@@ -1,6 +1,4 @@
-const BASE = process.env.NEXT_PUBLIC_SERVER_URL || "";
-
-
+import { BASE } from "./base";
 
 export async function uploadImage(boardId: string, file: File) {
   const formData = new FormData();
