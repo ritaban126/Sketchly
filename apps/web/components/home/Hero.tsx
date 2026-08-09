@@ -78,7 +78,7 @@ export default function Hero() {
             <a href="#" className="transition-colors hover:text-[#15172B]">
               Features
             </a>
-            <Link href="/dashboard" className="transition-colors hover:text-[#15172B]">
+            <Link href="/signup" className="transition-colors hover:text-[#15172B]">
               Dashboard
             </Link>
             <a href="#" className="transition-colors hover:text-[#15172B]">
